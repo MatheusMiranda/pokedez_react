@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import PokemonCard from './PokemonCard.js'
 import { Row, Col, Container } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 class PokemonList extends React.Component {
 	constructor(props) {
@@ -22,7 +23,7 @@ class PokemonList extends React.Component {
 	showPokemonList(){
     let pokemons = this.state.pokemons.map(
       (pokemon, index) => 
-        <Col> <PokemonCard key={pokemon.name + index} pokemon={pokemon} /> </Col>
+        <Col><Link to={`pokemon/${pokemon.id}`}><PokemonCard key={pokemon.name + index} pokemon={pokemon} /> </Link> </Col>
     );
 
 		return pokemons;

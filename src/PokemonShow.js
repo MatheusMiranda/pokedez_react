@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import PokemonCard from './PokemonCard.js'
 
-class PokemonList extends React.Component {
+class PokemonShow extends React.Component {
+/*
 	componentDidMount() {
 		axios.get(`http://localhost:3000/pokemons/` + this.props.pokemon.id)
 		.then(res => {
@@ -19,14 +20,14 @@ class PokemonList extends React.Component {
 
 		return pokemons;
   }	
-
+*/
 	render() {
 		return (
 			<div>
-			  {this.showPokemonList()}
+      fdsafdsafd
 			</div>
 		);
 	}
 }
 
-export default PokemonList;
+export default PokemonShow;
