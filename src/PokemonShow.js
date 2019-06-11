@@ -1,18 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import PokemonCard from './PokemonCard.js'
-import { Row, Col, Container } from 'react-bootstrap'
 
 class PokemonList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			pokemons: []
-		};
-	}
-
 	componentDidMount() {
-		axios.get(`http://localhost:3000/pokemons`)
+		axios.get(`http://localhost:3000/pokemons/` + this.props.pokemon.id)
 		.then(res => {
 			console.log(res.data);
 			this.setState({pokemons: res.data});
@@ -22,7 +14,7 @@ class PokemonList extends React.Component {
 	showPokemonList(){
     let pokemons = this.state.pokemons.map(
       (pokemon, index) => 
-        <Col> <PokemonCard key={pokemon.name + index} pokemon={pokemon} /> </Col>
+        <PokemonCard key={pokemon.name + index} pokemon={pokemon} />
     );
 
 		return pokemons;
@@ -30,11 +22,9 @@ class PokemonList extends React.Component {
 
 	render() {
 		return (
-			<Container>
-				<Row>
-			  	{this.showPokemonList()}
-				</Row>
-			</Container>
+			<div>
+			  {this.showPokemonList()}
+			</div>
 		);
 	}
 }
