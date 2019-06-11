@@ -1,13 +1,18 @@
 import React from 'react';
+import Card from 'react-bootstrap/Card'
 
 class PokemonCard extends React.Component {
 	render() {
 		return (
-			<div>
-			{this.props.pokemon.name}
-			<img src={this.props.pokemon.image} />
+			<Card style={{ width: '18rem' }}>
+			<Card.Img variant="top" src={this.props.pokemon.image} />
+			<Card.Body>
+			<Card.Title>{this.props.pokemon.name}</Card.Title>
+			<Card.Text>
 			{this.props.pokemon.type}
-			</div>
+			</Card.Text>
+			</Card.Body>
+			</Card>
 		);
 	}
 }
