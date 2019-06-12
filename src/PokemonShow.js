@@ -3,24 +3,15 @@ import axios from 'axios';
 import PokemonCard from './PokemonCard.js'
 
 class PokemonShow extends React.Component {
-/*
 	componentDidMount() {
-		axios.get(`http://localhost:3000/pokemons/` + this.props.pokemon.id)
+    const { params } = this.props.match
+		axios.get(`http://localhost:3000/pokemons/` + params.id)
 		.then(res => {
 			console.log(res.data);
 			this.setState({pokemons: res.data});
 		})
 	}
 
-	showPokemonList(){
-    let pokemons = this.state.pokemons.map(
-      (pokemon, index) => 
-        <PokemonCard key={pokemon.name + index} pokemon={pokemon} />
-    );
-
-		return pokemons;
-  }	
-*/
 	render() {
 		return (
 			<div>
