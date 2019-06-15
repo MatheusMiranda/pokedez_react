@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import PokemonShow from './PokemonShow';
 import PokemonList from './PokemonList.js'
+import PokemonForm from './PokemonForm.js'
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
@@ -12,6 +13,7 @@ const routing = (
     <div>
       <Route exact path="/" component={PokemonList} />
       <Route path="/pokemon/:id" component={PokemonShow} />
+      <Route path="/create_pokemon/" component={PokemonForm} />
     </div>
   </Router>
 )
