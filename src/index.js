@@ -1,17 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 import './index.css';
 import App from './App';
 import PokemonShow from './PokemonShow';
-import PokemonList from './PokemonList.js'
 import PokemonForm from './PokemonForm.js'
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
   <Router>
     <div>
-      <Route exact path="/" component={PokemonList} />
+      <Route exact path="/" component={App} />
       <Route path="/pokemon/:id" component={PokemonShow} />
       <Route path="/create_pokemon/" component={PokemonForm} />
     </div>

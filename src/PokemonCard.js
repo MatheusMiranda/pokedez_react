@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 
 class PokemonCard extends React.Component {
   validateTypes(){
-    if (this.props.pokemon.types != undefined)
+    if (this.props.pokemon.types !== undefined)
       return (this.props.pokemon.types).join();
     else
       return "";

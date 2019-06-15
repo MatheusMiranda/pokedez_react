@@ -1,14 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import PokemonList from './PokemonList.js'
+import { Link } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 
 function App() {
   return (
     <div className="App">
-			<div>header </div>
+      <Link to={{ pathname: '/create_pokemon',
+                  state: {is_update: false}
+      }}>
+      <Button type="link">
+      Cadastrar Pokemon
+      </Button>
+      </Link>
       <PokemonList> </PokemonList>
-			<div>footer </div>
     </div>
   );
 }
