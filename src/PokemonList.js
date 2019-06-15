@@ -3,6 +3,7 @@ import axios from 'axios';
 import PokemonCard from './PokemonCard.js'
 import { Row, Col, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { API_PATH } from './utils.js';
 
 class PokemonList extends React.Component {
 	constructor(props) {
@@ -13,7 +14,7 @@ class PokemonList extends React.Component {
 	}
 
 	componentDidMount() {
-		axios.get(`http://localhost:3000/pokemons`)
+		axios.get(API_PATH + `/pokemons/`)
 		.then(res => {
 			console.log(res.data);
 			this.setState({pokemons: res.data});
@@ -23,7 +24,7 @@ class PokemonList extends React.Component {
 	showPokemonList(){
     let pokemons = this.state.pokemons.map(
       (pokemon, index) => 
-        <Col><Link to={`pokemon/${pokemon.id}`}><PokemonCard key={pokemon.name + index} pokemon={pokemon} /> </Link> </Col>
+        <Col key={pokemon.name + index}> <Link to={`pokemon/${pokemon.id}`}><PokemonCard pokemon={pokemon} /> </Link> </Col>
     );
 
 		return pokemons;
