@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import './index.css';
 import App from './App';
-import PokemonShow from './PokemonShow';
-import PokemonForm from './PokemonForm.js'
+import PokemonShow from './Pokemon/PokemonShow';
+import PokemonForm from './Pokemon/PokemonForm.js'
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
