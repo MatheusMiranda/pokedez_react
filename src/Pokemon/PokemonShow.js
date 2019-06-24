@@ -5,6 +5,7 @@ import { API_PATH } from './utils.js';
 import Button from 'react-bootstrap/Button'
 import { Row, Col, Container } from 'react-bootstrap'
 import PokemonForm from './PokemonForm.js'
+import { Link } from 'react-router-dom'
 
 class PokemonShow extends React.Component {
 	constructor(props, context) {
@@ -57,7 +58,14 @@ class PokemonShow extends React.Component {
 			    <Button variant="success" style={{marginRight: '10px'}} onClick={this.showPokemonModal}>Editar Pokemon</Button>
 			    <Button variant="danger" onClick={this.handleDeleteClick}>Deletar Pokemon</Button>
         </Col>
+				<Col>
+				</Col>
         </Row>
+				<Row>
+					<Link className="nav-link" to={`/`}>
+						<Button variant="secondary">Go Back</Button>
+					</Link>
+				</Row>
         {this.get_evolutions()}
 			</Container>
 		);

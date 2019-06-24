@@ -163,6 +163,7 @@ class PokemonForm extends React.Component {
               width={150}
               src={el.id ? el.url : URL.createObjectURL(el)}
               style={{ alignSelf: 'center' }}
+              alt="pokemon-avatar"
             />
             <div
               className="remove"

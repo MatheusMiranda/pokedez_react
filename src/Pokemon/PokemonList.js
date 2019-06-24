@@ -5,7 +5,6 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { API_PATH } from './utils.js';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button'
 import { Navbar, Nav } from 'react-bootstrap'
 import PokemonForm from './PokemonForm.js'
 
