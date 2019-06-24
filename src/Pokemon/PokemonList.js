@@ -21,8 +21,8 @@ class PokemonList extends React.Component {
 		this.showPokemonModal = this.showPokemonModal.bind(this);
 	}
 
-	handleClick() {
-		axios.get(API_PATH + '/pokemons?filter=' + this.state.search_pattern)
+	handleClick(event) {
+		axios.get(API_PATH + '/pokemons?filter=' + event.target.value)
 		.then(res => {
 			this.setState({pokemons: res.data});
 		})
@@ -67,13 +67,14 @@ class PokemonList extends React.Component {
       </Nav.Link>
       </Nav>
       <Form inline>
-			<Form.Control type="text" onSubmit={this.handleClick} placeholder="Ex: charmander" className="mr-sm-2" onChange={(e) => this.setState({search_pattern: e.target.value})}/>
-			<Button variant="outline-success" onClick={this.handleClick}>Search</Button>
+			<Form.Control type="text" placeholder="Ex: charmander" className="mr-sm-2" onChange={(e) => this.handleClick(e)}/>
       </Form>
       </Navbar.Collapse>
       </Navbar>
 
 			<Container>
+
+			{this.state.search_pattern}
 
 			<Row>
 				{this.showPokemonList()}

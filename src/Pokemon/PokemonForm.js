@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { API_PATH } from './utils.js';
+import { API_PATH, SERVER_PATH } from './utils.js';
 import { Button, Modal, Form } from 'react-bootstrap'
 
 class PokemonForm extends React.Component {
@@ -32,10 +32,13 @@ class PokemonForm extends React.Component {
 		this.setState({ show: true });
 		let is_update = this.props.is_update;
 		if (is_update && (Object.keys(this.props.pokemon)).length){
+      let full_url = SERVER_PATH + this.props.pokemon.photo.url;
+      this.props.pokemon.photo.url = full_url;
 			this.setState({id: this.props.pokemon.id});
 			this.setState({name: this.props.pokemon.name});
 			this.setState({types: this.props.pokemon.types});
 			this.setState({evolutions: this.props.pokemon.evolutions[0]});
+      this.setState({selectedPokemonFiles: [this.props.pokemon.photo]});
 		}
 	}
 
