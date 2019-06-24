@@ -3,17 +3,18 @@ import axios from 'axios';
 import PokemonCard from './PokemonCard.js'
 import { API_PATH } from './utils.js';
 import Button from 'react-bootstrap/Button'
-import { Link } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap'
+import PokemonForm from './PokemonForm.js'
 
 class PokemonShow extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 		this.state = {
 			pokemon: {}
 		};
 
 		this.handleDeleteClick = this.handleDeleteClick.bind(this);
+		this.showPokemonModal = this.showPokemonModal.bind(this);
 	}
 
 	handleDeleteClick() {
@@ -24,7 +25,7 @@ class PokemonShow extends React.Component {
     let evolutions = this.state.pokemon.evolutions;
     if (evolutions !== undefined) {
       return evolutions.map(
-        (gen, gen_index) => <Row key={gen_index + "gen"}> {gen.map(
+        (gen, gen_index) => <Row style={{marginTop: '30px'}} key={gen_index + "gen"}> {gen.map(
           (evolution, index) => <Col key={index + "evolution"}> <PokemonCard pokemon={evolution} /> </Col>
         )} </Row>
       )
@@ -35,23 +36,30 @@ class PokemonShow extends React.Component {
     const { params } = this.props.match
 		axios.get(API_PATH + `/pokemons/` + params.id)
 		.then(res => {
-			console.log(res.data);
 			this.setState({pokemon: res.data});
 		})
 	}
 
+  showPokemonModal(){
+    this.refs.pokemonModal.handleShow();
+  }
+
 	render() {
 		return (
-			<div>
-			<Button onClick={this.handleDeleteClick}>Deletar Pokemon</Button>
-      <Link to={{ pathname: '/create_pokemon',
-                  state: {is_update: true, pokemon: this.state.pokemon}
-      }}>
-			  <Button>Editar Pokemon</Button>
-      </Link>
-			<PokemonCard pokemon={this.state.pokemon} />
-      {this.get_evolutions()}
-			</div>
+			<Container>
+        <PokemonForm ref="pokemonModal" pokemon={this.state.pokemon} is_update={true}>
+        </PokemonForm>
+        <Row style={{marginTop: '25px'}}>
+        <Col>
+			  <PokemonCard pokemon={this.state.pokemon} />
+        </Col>
+        <Col>
+			    <Button variant="success" style={{marginRight: '10px'}} onClick={this.showPokemonModal}>Editar Pokemon</Button>
+			    <Button variant="danger" onClick={this.handleDeleteClick}>Deletar Pokemon</Button>
+        </Col>
+        </Row>
+        {this.get_evolutions()}
+			</Container>
 		);
 	}
 }

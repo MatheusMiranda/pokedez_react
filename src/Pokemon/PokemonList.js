@@ -10,12 +10,11 @@ import { Navbar, Nav } from 'react-bootstrap'
 import PokemonForm from './PokemonForm.js'
 
 class PokemonList extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 		this.state = {
 			pokemons: [],
 			search_pattern: "",
-      show_pokemon_modal: false
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -32,7 +31,6 @@ class PokemonList extends React.Component {
 	componentDidMount() {
 		axios.get(API_PATH + `/pokemons/`)
 		.then(res => {
-			console.log(res.data);
 			this.setState({pokemons: res.data});
 		})
 	}
@@ -47,11 +45,7 @@ class PokemonList extends React.Component {
   }	
 
   showPokemonModal(){
-    this.showModal();
-  }
-
-  PokemonModalRef = ({handleShow}) => {
-     this.showModal = handleShow;
+    this.refs.pokemonModal.handleShow();
   }
 
 	render() {
@@ -61,7 +55,7 @@ class PokemonList extends React.Component {
 
 		return (
       <div>
-      <PokemonForm ref={this.PokemonModalRef} is_update={false}>
+      <PokemonForm ref= "pokemonModal" is_update={false}>
       </PokemonForm>
       <Navbar bg="light" expand="lg" style={navbarStyle}>
       <Navbar.Brand>Pokedez</Navbar.Brand>

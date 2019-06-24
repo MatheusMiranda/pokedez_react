@@ -30,18 +30,16 @@ class PokemonForm extends React.Component {
 
 	handleShow() {
 		this.setState({ show: true });
-	}
-
-
-	componentDidMount () {
 		let is_update = this.props.is_update;
-		if (is_update){
-
+		if (is_update && (Object.keys(this.props.pokemon)).length){
 			this.setState({id: this.props.pokemon.id});
 			this.setState({name: this.props.pokemon.name});
 			this.setState({types: this.props.pokemon.types});
 			this.setState({evolutions: this.props.pokemon.evolutions[0]});
 		}
+	}
+
+	componentDidMount () {
 	}
 
 	validateTypes(){
@@ -91,7 +89,7 @@ class PokemonForm extends React.Component {
 
 	createTypeSelection() {
 		return this.state.available_types.map(
-			(type) =>  <option value={type}>{type}</option>
+			(type, index) =>  <option key={type + index} value={type}>{type}</option>
 		);
 	}	
 
@@ -194,7 +192,6 @@ class PokemonForm extends React.Component {
 	render() {
 		return (
 			<div>
-
 
 			<Modal show={this.state.show} onHide={this.handleClose}>
 			<Modal.Header closeButton>
