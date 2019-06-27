@@ -10,7 +10,7 @@ class PokemonForm extends React.Component {
 			id: 0,
 			name: "",
 			types: [],
-			evolutions: [],
+			evolutions: [""],
 			available_types: ["poison", "grass", "flying", "fire", "water", "bug",
 												"normal", "electric", "ground", "fairy", "fighting",
 												"psychic", "rock", "ice", "ghost", "steel", "dragon"],
@@ -55,7 +55,8 @@ class PokemonForm extends React.Component {
   buildFormData() {
     let formData = new FormData();
     formData.append('pokemon[name]', this.state.name);
-    formData.append('pokemon[description]', this.state.types);
+    formData.append('pokemon[types]', this.state.types);
+
     formData.append('pokemon[evolutions]', this.state.evolutions.split(','));
 
     let { selectedPokemonFiles} = this.state;
@@ -157,7 +158,7 @@ class PokemonForm extends React.Component {
       }
 
       return (
-        <div>
+        <div key={"image" + index}>
           <div className="photo">
             <img
               width={150}
@@ -165,11 +166,6 @@ class PokemonForm extends React.Component {
               style={{ alignSelf: 'center' }}
               alt="pokemon-avatar"
             />
-            <div
-              className="remove"
-              onClick={() => this.removeSelectedBookCoverFile(el, index)}>
-              <span style={{ top: 2 }} className="glyphicon glyphicon-remove" />
-            </div>
           </div>
           <div className="file-name">
             {el.name}
@@ -214,7 +210,7 @@ class PokemonForm extends React.Component {
 						</Form.Control>
 
 						<Form.Label>Evolutions</Form.Label>
-						<Form.Control value={this.state.evolutions} type="text" placeholder="Ex: charmilion, charizard" onChange={(e) => this.setState({evolutions: e.target.value})}/>
+						<Form.Control value={this.state.evolutions} type="text" placeholder="Ex: charmilion" onChange={(e) => this.setState({evolutions: e.target.value})}/>
 						<Form.Label>Add Pokemon image</Form.Label>
       	    {this.renderUploadCoversButton()}
       	    {this.renderSelectedBookCoverFiles()}
@@ -226,7 +222,7 @@ class PokemonForm extends React.Component {
 			<Button variant="secondary" onClick={this.handleClose}>
 			Close
 			</Button>
-			<Button variant="primary" onClick={this.handleClick} type="submit">Salvar</Button>
+			<Button variant="primary" onClick={this.handleClick} type="submit">Save</Button>
 			</Modal.Footer>
 			</Modal>
 

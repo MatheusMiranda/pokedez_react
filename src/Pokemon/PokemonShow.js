@@ -20,6 +20,9 @@ class PokemonShow extends React.Component {
 
 	handleDeleteClick() {
 		axios.delete(API_PATH + '/pokemons/' + this.state.pokemon.id)
+		.then(res => {
+      this.props.history.push('/');
+		})
 	}
 
   get_evolutions() {

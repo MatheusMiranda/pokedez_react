@@ -14,28 +14,33 @@ class PokemonList extends React.Component {
 		this.state = {
 			pokemons: [],
 			search_pattern: "",
+      filtered_pokemons: []
 		};
 
-		this.handleClick = this.handleClick.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 		this.showPokemonModal = this.showPokemonModal.bind(this);
 	}
 
-	handleClick(event) {
-		axios.get(API_PATH + '/pokemons?filter=' + event.target.value)
-		.then(res => {
-			this.setState({pokemons: res.data});
-		})
+	handleChange(event) {
+    let search_pattern = event.target.value;
+		let result = (this.state.pokemons).filter(
+      (pokemon) => {
+        return pokemon.name.includes(search_pattern);
+      }
+    );
+    this.setState({filtered_pokemons: result});
 	}
 
 	componentDidMount() {
 		axios.get(API_PATH + `/pokemons/`)
 		.then(res => {
 			this.setState({pokemons: res.data});
+			this.setState({filtered_pokemons: res.data});
 		})
 	}
 
 	showPokemonList(){
-    let pokemons = this.state.pokemons.map(
+    let pokemons = this.state.filtered_pokemons.map(
       (pokemon, index) => 
         <Col style={{marginBottom: '10px'}}key={pokemon.name + index}> <Link className="nav-link" style={{color: 'black'}} to={`pokemon/${pokemon.id}`}><PokemonCard pokemon={pokemon} /> </Link> </Col>
     );
@@ -66,7 +71,7 @@ class PokemonList extends React.Component {
       </Nav.Link>
       </Nav>
       <Form inline>
-			<Form.Control type="text" placeholder="Ex: charmander" className="mr-sm-2" onChange={(e) => this.handleClick(e)}/>
+			<Form.Control type="text" placeholder="Ex: charmander" className="mr-sm-2" onChange={(e) => this.handleChange(e)}/>
       </Form>
       </Navbar.Collapse>
       </Navbar>
