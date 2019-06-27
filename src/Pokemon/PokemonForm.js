@@ -10,7 +10,7 @@ class PokemonForm extends React.Component {
 			id: 0,
 			name: "",
 			types: [],
-			evolutions: [""],
+			evolutions: "",
 			available_types: ["poison", "grass", "flying", "fire", "water", "bug",
 												"normal", "electric", "ground", "fairy", "fighting",
 												"psychic", "rock", "ice", "ghost", "steel", "dragon"],
@@ -33,11 +33,21 @@ class PokemonForm extends React.Component {
 		let is_update = this.props.is_update;
 		if (is_update && (Object.keys(this.props.pokemon)).length){
       let full_url = SERVER_PATH + this.props.pokemon.photo.url;
+			let evolutions = [];
+		
+			let evolutions_array = this.props.pokemon.evolutions[0];
+
+			if (evolutions_array !== undefined){
+				for (var i = 0; i < evolutions_array.length; i++) {
+					evolutions.push(evolutions_array[i]['name'])
+				}
+			}
+
       this.props.pokemon.photo.url = full_url;
 			this.setState({id: this.props.pokemon.id});
 			this.setState({name: this.props.pokemon.name});
 			this.setState({types: this.props.pokemon.types});
-			this.setState({evolutions: this.props.pokemon.evolutions[0]});
+			this.setState({evolutions: evolutions.join()});
       this.setState({selectedPokemonFiles: [this.props.pokemon.photo]});
 		}
 	}
@@ -57,7 +67,12 @@ class PokemonForm extends React.Component {
     formData.append('pokemon[name]', this.state.name);
     formData.append('pokemon[types]', this.state.types);
 
-    formData.append('pokemon[evolutions]', this.state.evolutions.split(','));
+		let evolutions = []
+		if (this.state.evolutions !== ""){
+			evolutions = this.state.evolutions.split(',')
+		}
+
+    formData.append('pokemon[evolutions]', evolutions);
 
     let { selectedPokemonFiles} = this.state;
     for (let i = 0; i < selectedPokemonFiles.length; i++) {
@@ -82,13 +97,23 @@ class PokemonForm extends React.Component {
 	handleClick() {
 		let is_update = this.props.is_update;
 
-		if(is_update){
-			axios.put(API_PATH + '/pokemons/' + this.state.id, this.buildFormData())
-		}else{
-			axios.post(API_PATH + '/pokemons/', this.buildFormData())
-		}
+		let formData = this.buildFormData();
 
-		this.handleClose();
+		let isValidForm = (formData.get('pokemon[name]') !== "" &&
+											(formData.get('pokemon[photo]') !== null ||
+											this.state.selectedPokemonFiles.length !== 0))
+
+		if (isValidForm){
+			if(is_update){
+				axios.put(API_PATH + '/pokemons/' + this.state.id, formData)
+			}else{
+				axios.post(API_PATH + '/pokemons/', formData)
+			}
+			this.handleClose();
+			//return <Redirect to={'/pokemon/' + this.state.id}/>;
+		}else{
+			alert("The fields 'name' and 'photo' can't be empty!")
+		}
 	}
 
 	createTypeSelection() {
@@ -167,7 +192,7 @@ class PokemonForm extends React.Component {
               alt="pokemon-avatar"
             />
           </div>
-          <div className="file-name">
+          <div key={"image-name" + index} className="file-name">
             {el.name}
           </div>
         </div>
@@ -225,7 +250,6 @@ class PokemonForm extends React.Component {
 			<Button variant="primary" onClick={this.handleClick} type="submit">Save</Button>
 			</Modal.Footer>
 			</Modal>
-
 
 			</div>
 		);
