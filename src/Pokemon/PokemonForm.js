@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { API_PATH, SERVER_PATH } from './utils.js';
 import { Button, Modal, Form } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 class PokemonForm extends React.Component {
 	constructor(props, context) {
@@ -55,24 +56,23 @@ class PokemonForm extends React.Component {
 	componentDidMount () {
 	}
 
-	validateTypes(){
-		if (this.props.pokemon.types !== undefined)
-			return (this.props.pokemon.types).join();
-		else
-			return "";
-	}
-
   buildFormData() {
     let formData = new FormData();
     formData.append('pokemon[name]', this.state.name);
-    formData.append('pokemon[types]', this.state.types);
 
 		let evolutions = []
 		if (this.state.evolutions !== ""){
 			evolutions = this.state.evolutions.split(',')
 		}
 
-    formData.append('pokemon[evolutions]', evolutions);
+    for (var i = 0; i < evolutions.length; i++) {
+      formData.append('pokemon[evolutions][]', evolutions[i].trim());
+    }
+
+    let types = this.state.types;
+    for (var j = 0; j < types.length; j++) {
+      formData.append('pokemon[types][]', types[j]);
+    }
 
     let { selectedPokemonFiles} = this.state;
     for (let i = 0; i < selectedPokemonFiles.length; i++) {
@@ -110,7 +110,6 @@ class PokemonForm extends React.Component {
 				axios.post(API_PATH + '/pokemons/', formData)
 			}
 			this.handleClose();
-			//return <Redirect to={'/pokemon/' + this.state.id}/>;
 		}else{
 			alert("The fields 'name' and 'photo' can't be empty!")
 		}
@@ -247,7 +246,9 @@ class PokemonForm extends React.Component {
 			<Button variant="secondary" onClick={this.handleClose}>
 			Close
 			</Button>
-			<Button variant="primary" onClick={this.handleClick} type="submit">Save</Button>
+			<Link className="nav-link" to={`/`}>
+				<Button variant="primary" onClick={this.handleClick} type="submit">Save</Button>
+			</Link>
 			</Modal.Footer>
 			</Modal>
 
