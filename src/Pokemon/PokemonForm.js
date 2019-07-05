@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { API_PATH, SERVER_PATH } from './utils.js';
 import { Button, Modal, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 class PokemonForm extends React.Component {
 	constructor(props, context) {
@@ -16,7 +16,9 @@ class PokemonForm extends React.Component {
 												"normal", "electric", "ground", "fairy", "fighting",
 												"psychic", "rock", "ice", "ghost", "steel", "dragon"],
       selectedPokemonFiles: [],
-			show: this.props.show
+			show: this.props.show,
+			redirectToHome: false,
+			pokemonShowUrl: ""
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -94,6 +96,18 @@ class PokemonForm extends React.Component {
     return formData;
   }
 
+	setRequestFinished(response){
+		if (response.status === 200) {
+			this.setState({ redirectToHome: true });
+		}
+	}
+
+	setPokemonShowUrl(response){
+		if (response.status === 200) {
+			this.setState({ pokemonShowUrl: "/pokemon/" + response.data.id });
+		}
+	}
+
 	handleClick() {
 		let is_update = this.props.is_update;
 
@@ -106,8 +120,14 @@ class PokemonForm extends React.Component {
 		if (isValidForm){
 			if(is_update){
 				axios.put(API_PATH + '/pokemons/' + this.state.id, formData)
+				.then(response => {
+					this.setRequestFinished(response)
+				})
 			}else{
 				axios.post(API_PATH + '/pokemons/', formData)
+				.then(response => {
+					this.setPokemonShowUrl(response)
+				})
 			}
 			this.handleClose();
 		}else{
@@ -214,6 +234,14 @@ class PokemonForm extends React.Component {
 	}
 
 	render() {
+		if (this.state.redirectToHome) {
+			return <Redirect to = {{ pathname: "/" }} />;
+		}
+
+		if (this.state.pokemonShowUrl !== "") {
+			return <Redirect to = {{ pathname: this.state.pokemonShowUrl }} />;
+		}
+
 		return (
 			<div>
 
@@ -246,9 +274,7 @@ class PokemonForm extends React.Component {
 			<Button variant="secondary" onClick={this.handleClose}>
 			Close
 			</Button>
-			<Link className="nav-link" to={`/`}>
-				<Button variant="primary" onClick={this.handleClick} type="submit">Save</Button>
-			</Link>
+			<Button variant="primary" onClick={this.handleClick} type="submit">Save</Button>
 			</Modal.Footer>
 			</Modal>
 
