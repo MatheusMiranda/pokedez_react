@@ -60,7 +60,7 @@ class PokemonForm extends React.Component {
 
   buildFormData() {
     let formData = new FormData();
-    formData.append('pokemon[name]', this.state.name);
+    formData.append('pokemon[name]', this.state.name.toLowerCase());
 
 		let evolutions = []
 		if (this.state.evolutions !== ""){
@@ -68,7 +68,7 @@ class PokemonForm extends React.Component {
 		}
 
     for (var i = 0; i < evolutions.length; i++) {
-      formData.append('pokemon[evolutions][]', evolutions[i].trim());
+      formData.append('pokemon[evolutions][]', evolutions[i].trim().toLowerCase());
     }
 
     let types = this.state.types;
@@ -123,10 +123,16 @@ class PokemonForm extends React.Component {
 				.then(response => {
 					this.setRequestFinished(response)
 				})
+				.catch(error => {
+					alert(error.request.response)
+				})
 			}else{
 				axios.post(API_PATH + '/pokemons/', formData)
 				.then(response => {
 					this.setPokemonShowUrl(response)
+				})
+				.catch(error => {
+					alert(error.request.response)
 				})
 			}
 			this.handleClose();
