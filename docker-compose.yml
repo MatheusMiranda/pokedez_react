@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  rails-server:
+    image: matheusmiranda/pokedez:latest
+    ports:
+      - 3001:3000
+    depends_on:
+      - rails-server-db
+    command: bash -c "rm -rf tmp/ && bundle exec rails s -b 0.0.0.0"
+
+  rails-server-db:
+    image: postgres:10.5
+    restart: unless-stopped
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  react-server:
+    image: matheusmiranda/pokedez-react:latest
+    build:
+      context: .
+      dockerfile: ./docker/react-server/Dockerfile
+    ports:
+      - 3000:3000
+    command: "npm start"
+    volumes:
+      - .:/app
+

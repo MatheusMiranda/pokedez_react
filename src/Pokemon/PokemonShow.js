@@ -30,7 +30,7 @@ class PokemonShow extends React.Component {
     if (evolutions !== undefined) {
       return evolutions.map(
         (gen, gen_index) => <Row style={{marginTop: '30px'}} key={gen_index + "gen"}> {gen.map(
-          (evolution, index) => <Col key={index + "evolution"}> <PokemonCard pokemon={evolution} /> </Col>
+          (evolution, index) => <Col key={index + "evolution"}>  <Link target="_blank" className="nav-link" style={{color: 'black'}} to={`/pokemon/${evolution.id}`}> <PokemonCard pokemon={evolution} /> </Link> </Col>
         )} </Row>
       )
     }
